@@ -27,16 +27,16 @@ public class TreeGenerateUtil {
      * 节点类：
      *
      * @Data public class Tree {
-     * private Long id;
-     * private Long pId;
-     * private String name;
+     * private F id;
+     * private F pId;
+     * private F name;
      * <p>
      * private List<Tree> subs;
      * }
      * <p>
      * 传参，调用：
-     * Function<Tree, Long> genIdF = tree -> tree.getId(); // 获取id
-     * Function<Tree, Long> genPidF = tree -> tree.getPId(); // 获取父id
+     * Function<Tree, F> genIdF = tree -> tree.getId(); // 获取id
+     * Function<Tree, F> genPidF = tree -> tree.getPId(); // 获取父id
      * BiConsumer<Tree, List<Tree>> setSubsF = (tree, subs) -> tree.setSubs(subs); // 设置子节点列表
      * <p>
      * List<Tree> list = ; // 初始化所有节点列表。
@@ -55,12 +55,12 @@ public class TreeGenerateUtil {
      * @param <T>       节点类
      * @return
      */
-    public static <T> List<T> buildTree(List<T> list, Long topNodeId, Function<T, Long> getIdF, Function<T, Long> getPidF, BiConsumer<T, List<T>> setSubsF) {
+    public static <T, F> List<T> buildTree(List<T> list, F topNodeId, Function<T, F> getIdF, Function<T, F> getPidF, BiConsumer<T, List<T>> setSubsF) {
         if (CollectionUtil.isEmpty(list)) {
             return Collections.emptyList();
         }
 
-        Map<Long, List<T>> pidMap = list.stream()
+        Map<F, List<T>> pidMap = list.stream()
                 .filter(sysCatalog -> getPidF.apply(sysCatalog) != null)
                 .collect(Collectors.groupingBy(sysCatalog -> getPidF.apply(sysCatalog)));
 
@@ -69,7 +69,7 @@ public class TreeGenerateUtil {
         }
 
         list.forEach(sysCatalog -> {
-            Long curNodeId = getIdF.apply(sysCatalog);
+            F curNodeId = getIdF.apply(sysCatalog);
             List<T> subs = pidMap.get(curNodeId);
             setSubsF.accept(sysCatalog, subs);
         });
@@ -93,12 +93,12 @@ public class TreeGenerateUtil {
      * @param <T>       节点类
      * @return
      */
-    public static <T> List<T> buildTreeAndSorted(List<T> list, Long topNodeId, Function<T, Long> getIdF, Function<T, Long> getPidF, BiConsumer<T, List<T>> setSubsF, Comparator<T> comparing) {
+    public static <T, F> List<T> buildTreeAndSorted(List<T> list, F topNodeId, Function<T, F> getIdF, Function<T, F> getPidF, BiConsumer<T, List<T>> setSubsF, Comparator<T> comparing) {
         if (CollectionUtil.isEmpty(list)) {
             return Collections.emptyList();
         }
 
-        Map<Long, List<T>> pidMap = list.stream()
+        Map<F, List<T>> pidMap = list.stream()
                 .filter(sysCatalog -> getPidF.apply(sysCatalog) != null)
                 .collect(Collectors.groupingBy(sysCatalog -> getPidF.apply(sysCatalog)));
 
@@ -107,7 +107,7 @@ public class TreeGenerateUtil {
         }
 
         list.forEach(sysCatalog -> {
-            Long curNodeId = getIdF.apply(sysCatalog);
+            F curNodeId = getIdF.apply(sysCatalog);
             List<T> subs = pidMap.get(curNodeId);
             // 排序
             subs = doSort(subs, comparing);
