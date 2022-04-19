@@ -31,7 +31,7 @@ public class Main {
 
             int batchCount = 10;
             System.out.println("----批量读取，每次 " + batchCount + " 条");
-            EcoflowExcelReadUtil.batchRepeatedReadExcel(fileInputStream, demoService, demoModel, handleF, sheetIndexA, 5, batchCount);
+            EcoflowExcelReadUtil.batchRepeatedReadExcel(fileInputStream, demoService, DemoModel.class, handleF, sheetIndexA, 5, batchCount);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -45,7 +45,6 @@ public class Main {
         long begin = System.currentTimeMillis();
 
         DemoService demoService = new DemoService();
-        DemoModel demoModel = new DemoModel();
         BiConsumer<DemoService, List<DemoModel>> handleF = (dao, datas) -> dao.save(datas);
 
         File file = new File("C:\\Users\\aseem.chen\\Desktop\\test.xlsx");
@@ -56,7 +55,7 @@ public class Main {
 
             // 批量读取
             System.out.println("----一次性读取");
-            EcoflowExcelReadUtil.repeatedReadExcel(fileInputStream, demoService, demoModel, handleF, sheetIndexA, 5);
+            EcoflowExcelReadUtil.repeatedReadExcel(fileInputStream, demoService, DemoModel.class, handleF, sheetIndexA, 5);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

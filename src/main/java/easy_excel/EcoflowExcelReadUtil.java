@@ -30,7 +30,7 @@ public class EcoflowExcelReadUtil {
      * @param <S>
      * @param <T>
      */
-    public static <S, T> void repeatedReadExcel(InputStream inputStream, S handler, T model, BiConsumer<S, List<T>> handleF, Integer[] sheetIndexArr, Integer headRowNumber) {
+    public static <S, T> void repeatedReadExcel(InputStream inputStream, S handler, Class<T> model, BiConsumer<S, List<T>> handleF, Integer[] sheetIndexArr, Integer headRowNumber) {
         // 参数校验
         if (ArrayUtil.isEmpty(sheetIndexArr)) {
             return;
@@ -46,7 +46,7 @@ public class EcoflowExcelReadUtil {
         for (int i = 0; i < sheetIndexArr.length; i++) {
             ExcelDataListener readListener = new ExcelDataListener<>(handler, handleF);
 
-            ReadSheet temp = EasyExcel.readSheet(sheetIndexArr[i]).head(model.getClass()).registerReadListener(readListener).headRowNumber(headRowNumber).build();
+            ReadSheet temp = EasyExcel.readSheet(sheetIndexArr[i]).head(model).registerReadListener(readListener).headRowNumber(headRowNumber).build();
             readSheets.add(temp);
         }
         excelReader.read(readSheets);
@@ -68,7 +68,7 @@ public class EcoflowExcelReadUtil {
      * @param <S>
      * @param <T>
      */
-    public static <S, T> void batchRepeatedReadExcel(InputStream inputStream, S handler, T model, BiConsumer<S, List<T>> handleF, Integer[] sheetIndexArr, Integer headRowNumber, Integer batchCount) {
+    public static <S, T> void batchRepeatedReadExcel(InputStream inputStream, S handler, Class<T> model, BiConsumer<S, List<T>> handleF, Integer[] sheetIndexArr, Integer headRowNumber, Integer batchCount) {
         // 参数校验
         if (ArrayUtil.isEmpty(sheetIndexArr)) {
             return;
@@ -84,7 +84,7 @@ public class EcoflowExcelReadUtil {
         for (int i = 0; i < sheetIndexArr.length; i++) {
             ExcelDataListener readListener = new ExcelDataListener<>(handler, handleF, batchCount);
 
-            ReadSheet temp = EasyExcel.readSheet(sheetIndexArr[i]).head(model.getClass()).registerReadListener(readListener).headRowNumber(headRowNumber).build();
+            ReadSheet temp = EasyExcel.readSheet(sheetIndexArr[i]).head(model).registerReadListener(readListener).headRowNumber(headRowNumber).build();
             readSheets.add(temp);
         }
         excelReader.read(readSheets);
