@@ -24,7 +24,7 @@ public class ExcelDataListener<S, T> extends AnalysisEventListener<T> {
     // 是否批量读取。否则一次性读取
     private Boolean ifBatch = false;
     private Integer batchCount = 100;
-    List<T> list = new ArrayList<>();
+    private List<T> list = new ArrayList<>();
 
     private S s;
     private BiConsumer<S, List<T>> handleF;
