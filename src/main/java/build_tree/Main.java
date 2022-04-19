@@ -1,27 +1,14 @@
 package build_tree;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public class Main {
     public static void main(String[] args) {
-        Function<Node, Long> genIdF = node -> node.getId();
-        Function<Node, Long> genPidF = node -> node.getPId();
-        Comparator<Node> comparing = Comparator.comparing(Node::getSort, Comparator.nullsLast(Integer::compareTo));
-        BiConsumer<Node, List<Node>> setSubsF = (node, subs) -> node.setSubs(subs);
-
-        List<Node> result = TreeGenerateUtil.buildTree(genList(), 0L, genIdF, genPidF, setSubsF);
-        System.out.println(result);
-        String str = result.toString();
-
-        List<Node> resul2 = TreeGenerateUtil.buildTreeAndSorted(genList(), 0L, genIdF, genPidF, setSubsF, comparing);
-        System.out.println(resul2);
-        String str2 = resul2.toString();
-
-        System.out.println("排序后，生成结果是否一样： " + str.equals(str2));
+        Set<Long> set = Collections.emptySet();
+        Set<Object> xxx = new HashSet<>();
+        xxx.addAll(set);
     }
 
 
