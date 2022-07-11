@@ -47,21 +47,27 @@ public class ThreadPoolFutureUtil {
     }
 
     /**
-     * 获取结果，future获取结果后才能继续往下执行
+     * 获取结果，20秒拿不到结果则跳过<br/>
+     * future获取结果后才能继续往下执行
      *
      * @return
      */
     public List<FutureResultDto> waitResult() {
         List<FutureResultDto> result = new ArrayList<>();
         for (Future<FutureResultDto> future : futures) {
+
+            FutureResultDto obj = null;
             try {
-                FutureResultDto obj = future.get();
-                result.add(obj);
+                obj = future.get(20, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
                 e.printStackTrace();
+            } catch (TimeoutException e) {
+                e.printStackTrace();
             }
+            result.add(obj);
+
         }
         futures.clear();
         return result;
