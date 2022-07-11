@@ -47,8 +47,7 @@ public class ThreadPoolFutureUtil {
     }
 
     /**
-     * 获取结果，20秒拿不到结果则跳过<br/>
-     * future获取结果后才能继续往下执行
+     * 获取结果，每个线程，20秒拿不到结果则抛异常<br/>
      *
      * @return
      */
